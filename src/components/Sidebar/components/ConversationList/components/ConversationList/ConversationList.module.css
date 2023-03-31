@@ -1,0 +1,6 @@
+.conversationList {
+  list-style-type: none;
+  flex-grow: 1;
+  border-right: .5px solid rgb(91, 85, 85);
+  overflow: auto;
+}

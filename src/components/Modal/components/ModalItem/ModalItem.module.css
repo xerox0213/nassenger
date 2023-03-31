@@ -1,0 +1,16 @@
+.modalItem {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  padding: 10px;
+  transition: 0.4s ease background-color;
+}
+
+.modalItem input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.modalItem:hover {
+  cursor: pointer;
+  background-color: rgb(67, 66, 66);
+}
