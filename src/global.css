@@ -12,6 +12,79 @@ body {
   color: white;
 }
 
+.disabled {
+  user-select: none;
+  pointer-events: none;
+  opacity: .5;
+}
+
+
+.toastContainer {
+  z-index: 10000000;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+.toast {
+  background-color: #111;
+  color: white;
+  min-width: max-content;
+  animation: appear .2s ease 0s 1;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.toast p {
+  padding: 15px;
+  font-size: clamp(14px, 3.5vw, 16px);
+}
+
+.toast.disappear {
+  animation: disappear .2s ease 0s 1 forwards;
+}
+
+.timer {
+  width: 100%;
+  height: 3px;
+  background: orangered;
+  transform-origin: left;
+  animation: timing 4s linear 0s 1 forwards;
+}
+
+@keyframes timing {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+@keyframes disappear {
+  to {
+    opacity: 0;
+  }
+}
+
+.toastContainer .toast:not(.toast:last-child) {
+  margin-bottom: 10px;
+}
 
 /* width */
 ::-webkit-scrollbar {

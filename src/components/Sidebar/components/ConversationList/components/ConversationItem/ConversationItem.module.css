@@ -1,14 +1,18 @@
+.conversationItem:not(.conversationItem.activeLink):hover {
+  background-color: rgb(49, 45, 45);
+}
+
 .conversationItem {
-  display: flex;
-  column-gap: 10px;
-  align-items: center;
+  position: relative;
   padding: 10px 15px;
   transition: 0.4s ease background-color;
   cursor: pointer;
-}
-
-.conversationItem:hover {
-  background-color: rgb(49, 45, 45);
+  width: 100%;
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  text-decoration: none;
+  color: white;
 }
 
 .conversationItem div {
@@ -17,7 +21,24 @@
   row-gap: 10px;
 }
 
+
 .conversationItem div p:nth-child(2) {
   color: rgb(163, 160, 160);
   font-size: 14px;
+}
+
+.activeLink {
+  background-color: rgb(46, 46, 58);
+
+}
+
+.stickerNotif {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: orangered;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY((-50%));
 }

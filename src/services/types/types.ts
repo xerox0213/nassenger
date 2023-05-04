@@ -1,22 +1,29 @@
 import { Dispatch, SetStateAction } from 'react';
+import firebase from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 
-export type User = {
+export type firebaseUser = firebase.User;
+
+export type UserData = {
   displayName: string;
   photoURL: string;
-  conversationList: string[];
 };
 
-export type Conversation = {
-  messageList: Message[];
-  usersID: string[];
+export type ConversationData = {
   tag: string;
+  participants: string[];
+  lastUpdated: Timestamp | undefined;
+  seen: boolean;
+  groupInfo: { admins: string[] } | null;
 };
 
-export type Message = {
-  text: string;
-  messageID: string;
+export type MessageData = {
+  type: string;
+  content: string;
   userID: string;
-  timestamp: number;
+  sentAt?: Timestamp | undefined;
+  messageID: string;
+  reply: string | null;
 };
 
 export type SetState<T> = Dispatch<SetStateAction<T>>;

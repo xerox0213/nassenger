@@ -2,7 +2,7 @@ import styles from './Avatar.module.css';
 
 type Props = {
   width: number;
-  photoURL: string | null;
+  photoURL: string | undefined | null;
 };
 
 function Avatar({ width, photoURL }: Props) {
@@ -10,7 +10,7 @@ function Avatar({ width, photoURL }: Props) {
     <img
       className={styles.avatar}
       style={{ width }}
-      src={photoURL ? photoURL : ''}
+      src={photoURL === null ? undefined : photoURL}
       alt='Photo de profil'
     />
   );

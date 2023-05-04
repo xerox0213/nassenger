@@ -7,15 +7,19 @@ import {
   IoGridOutline,
 } from 'react-icons/io5';
 import Avatar from '@components/Avatar/Avatar';
-import { AuthContext, ConnectedContext } from '@context/AuthContext';
+import { AuthContext } from '@context/AuthContext';
 import { useContext, Dispatch, SetStateAction } from 'react';
+import { firebaseUser } from '@services/types/types';
+import { auth } from '@services/configuration/firebase-config';
+import { useSignOut } from 'react-firebase-hooks/auth';
 
 type Props = {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
 };
 
 function Menu({ setOpenModal }: Props) {
-  const context = useContext(AuthContext) as ConnectedContext;
+  const [signOut, loading, error] = useSignOut(auth);
+  const user = useContext(AuthContext) as firebaseUser;
   const openModal = () => setOpenModal(true);
 
   return (
@@ -29,10 +33,14 @@ function Menu({ setOpenModal }: Props) {
         <button onClick={openModal}>
           <IoCreateOutline />
         </button>
-        <button onClick={context.logOut}>
+        <button
+          onClick={() => {
+            signOut();
+          }}
+        >
           <IoLogOutOutline />
         </button>
-        <Avatar width={35} photoURL={context.user.photoURL} />
+        <Avatar width={35} photoURL={user.photoURL} />
       </div>
     </div>
   );

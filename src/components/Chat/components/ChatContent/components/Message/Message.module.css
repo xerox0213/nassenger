@@ -1,0 +1,105 @@
+.Message {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 1.5px;
+  padding-bottom: 1.5px;
+}
+
+.msgCameFromMe {
+  align-items: flex-end;
+}
+
+.msgNotCameFromMe {
+  align-items: flex-start;
+}
+
+.msgCameFromMe .typeOfMsgContainer {
+  order: 2;
+}
+
+.repliedMessage>a {
+  display: inline-block;
+  text-decoration: none;
+  color: rgb(208, 205, 205);
+  background-color: rgb(36, 60, 60);
+  padding: 8px 10px;
+  margin-bottom: -5px;
+  border-radius: 5px;
+  font-style: italic;
+  font-size: 15px;
+}
+
+.repliedMessage {
+  display: flex;
+  column-gap: 5px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.name {
+  font-size: 11px;
+  color: lightgray;
+  padding-left: 40px;
+  padding-bottom: 5px;
+}
+
+.txtMsg {
+  display: inline-block;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+.blueMsg {
+  background-color: #674be0;
+}
+
+.redMsg {
+  background-color: crimson;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.msgCameFromMe .controls {
+  order: 1;
+}
+
+.Message:hover .controls {
+  opacity: 1;
+}
+
+.controls button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: lightgray;
+  cursor: pointer;
+  opacity: .5;
+  transition: opacity .2s ease;
+}
+
+.controls button:hover {
+  opacity: 1;
+}
+
+.msgRemoved {
+  display: inline-block;
+  border: .5px solid rgb(91, 85, 85);
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: gray;
+}

@@ -5,9 +5,9 @@ import { AuthContext } from '@context/AuthContext';
 import { useContext } from 'react';
 
 function SignIn() {
-  const context = useContext(AuthContext);
+  const user = useContext(AuthContext);
 
-  if (!context?.user) {
+  if (!user) {
     return (
       <div>
         <Navbar />

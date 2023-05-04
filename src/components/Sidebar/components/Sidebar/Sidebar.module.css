@@ -1,6 +1,15 @@
 .sidebar {
+  min-width: 350px;
   max-width: 350px;
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (max-width : 850px) {
+  .sidebar {
+    min-width: auto;
+    max-width: none;
+    width: 100%;
+  }
 }

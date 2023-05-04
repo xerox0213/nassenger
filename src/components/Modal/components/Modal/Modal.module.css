@@ -7,6 +7,8 @@
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 1000000;
+  padding: 0 15px;
 }
 
 .modal button {
@@ -33,10 +35,9 @@
   display: flex;
   flex-direction: column;
   width: 520px;
-  height: 480px;
+  height: 450px;
   background-color: #333;
   border-radius: 10px;
-
 }
 
 .header {
@@ -46,7 +47,7 @@
 }
 
 .header h1 {
-  font-size: 24px;
+  font-size: clamp(20px, 4.8vw, 24px);
   font-weight: 400;
   text-align: center;
 }
@@ -64,8 +65,18 @@
 }
 
 .listUsers {
+  overflow: hidden;
+  position: relative;
   flex-grow: 1;
   overflow: auto;
+}
+
+.listUsers>p {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .footer {
@@ -81,10 +92,4 @@
   font-family: inherit;
   font-size: 16px;
   transition: .4s ease opacity;
-}
-
-.disabled {
-  user-select: none;
-  pointer-events: none;
-  opacity: .5;
 }

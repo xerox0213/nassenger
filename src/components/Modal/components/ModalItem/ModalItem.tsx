@@ -1,11 +1,11 @@
 import Avatar from '@components/Avatar/Avatar';
 import { FormEvent, useState } from 'react';
 import styles from './ModalItem.module.css';
-import { SetState, User } from '@services/types/types';
+import { SetState, UserData } from '@services/types/types';
 
 type Props = {
   id: string;
-  user: User;
+  user: UserData;
   setSelectedUsers: SetState<string[]>;
 };
 

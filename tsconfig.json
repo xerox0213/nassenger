@@ -7,7 +7,9 @@
       "@styles/*" : ["src/styles/*"],
       "@assets/*" : ["src/assets/*"],
       "@context/*" : ["src/context/*"],
-      "@services/*" : ["src/services/*"]
+      "@services/*" : ["src/services/*"],
+      "@hooks/*" : ["src/hooks/*"],
+      "@utils/*" : ["src/utils/*"],
     },
     "target": "ESNext",
     "useDefineForClassFields": true,

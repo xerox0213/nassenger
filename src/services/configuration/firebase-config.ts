@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { enableIndexedDbPersistence, getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,5 +22,16 @@ const app = initializeApp(firebaseConfig);
 const provider = new GoogleAuthProvider();
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-export { provider, auth, db };
+/* Fonctionne uniquement avec un seul onglet d'ouvert 
+   Si on veut utiliser plusieurs onglet il faut utiliser
+   enableMultiTabIndexedDbPersistence
+*/
+enableIndexedDbPersistence(db)
+  .then(() => {})
+  .catch((error) => {
+    console.log(error.code);
+  });
+
+export { provider, auth, db, storage };

@@ -3,4 +3,13 @@
   flex-grow: 1;
   border-right: .5px solid rgb(91, 85, 85);
   overflow: auto;
+  position: relative;
+}
+
+.error {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  height: 75px;
+  padding: 0px 15px;
+  border-bottom: .5px solid rgb(91, 85, 85);
+}
+
+.backBtn {
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: #674be0;
+  cursor: pointer;
+}
+
+.conversationName {
+  font-size: 14px;
+}

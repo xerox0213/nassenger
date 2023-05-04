@@ -1,0 +1,18 @@
+.avatarSkeleton {
+  border-radius: 50%;
+  background-color: gray;
+  animation: loading .75s ease-in-out 0s infinite alternate none;
+  display: block;
+}
+
+
+
+@keyframes loading {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.5;
+  }
+}
