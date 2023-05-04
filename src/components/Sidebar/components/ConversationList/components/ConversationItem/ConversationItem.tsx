@@ -22,7 +22,10 @@ function ConversationItem({ data, conversationID }: Props) {
   const user = useContext(AuthContext) as firebaseUser;
   const collectionRef = collection(db, `Conversations/${conversationID}/Messages`);
   const q = query(collectionRef, orderBy('sentAt', 'desc'), limit(1));
-  const [userDocs, loadingUserData, errorUserData] = useUserDocs(data.participants, conversationID);
+  const [userDocs, loadingUserData, errorUserData] = useUserDocs(
+    data.participants,
+    data.participants
+  );
   const [lastMsgData, loadingLastMsgData, errorLastMsgData] = useLastMessage(q);
   const { conversationID: slug } = useParams();
   const filteredUserDocs = userDocs?.filter((userDoc) => userDoc.id !== user.uid);

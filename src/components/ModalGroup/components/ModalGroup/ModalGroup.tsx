@@ -3,7 +3,7 @@ import { IoCloseOutline } from 'react-icons/io5';
 import { MouseEvent, useState } from 'react';
 import { SetState, ConversationData } from '@services/types/types';
 import Members from '../Members/Members';
-import useUserData from '@hooks/useUserDocs';
+import useUserDocs from '@hooks/useUserDocs';
 import Admins from '../Admins/Admins';
 import AddMembers from '../AddMembers/AddMembers';
 
@@ -14,7 +14,10 @@ type Props = {
 
 function ModalGroup({ setIsOpened, conversationData }: Props) {
   const [activeTab, setActiveTab] = useState('members');
-  const [userDocs, loading, error] = useUserData(conversationData.participants, '5');
+  const [userDocs, loading, error] = useUserDocs(
+    conversationData.participants,
+    conversationData.participants
+  );
   const handleTabs = (e: MouseEvent) => {
     const btn = e.target as HTMLButtonElement;
     const tabName = btn.dataset.name as string;
@@ -101,12 +104,12 @@ function ModalGroup({ setIsOpened, conversationData }: Props) {
           <Members
             error={error}
             userDocs={userDocs}
-            admins={groupInfo.admins}
+            admins={groupInfo?.admins}
             participants={participants}
           />
         )}
         {activeTab === 'admins' && !loading && (
-          <Admins error={error} userDocs={userDocs} admins={groupInfo.admins} />
+          <Admins error={error} userDocs={userDocs} admins={groupInfo?.admins} />
         )}
         {activeTab === 'addMembers' && !loading && <AddMembers participants={participants} />}
       </div>

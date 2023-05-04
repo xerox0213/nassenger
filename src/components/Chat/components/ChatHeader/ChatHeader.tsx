@@ -22,8 +22,6 @@ function ChatHeader({ conversationData, setIsOpened }: Props) {
   const user = useContext(AuthContext) as firebaseUser;
   const isInSmallScreen = useContext(WindowContext);
   const navigate = useNavigate();
-  const params = useParams();
-  const conversationID = params.conversationID as string;
   const [userDocs, loading, error] = useUserDocs(
     conversationData.participants,
     conversationData.participants

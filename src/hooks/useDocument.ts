@@ -1,10 +1,12 @@
 import { DocumentData, DocumentReference, onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
-type R = [DocumentData | undefined | null, boolean, boolean];
+type R = [TState, boolean, boolean];
 
-function useDocument(docRef: DocumentReference<DocumentData>, dep: string | null): R {
-  const [state, setState] = useState<DocumentData | undefined | null>(null);
+type TState = DocumentData | undefined | null;
+
+function useDocument(docRef: DocumentReference<DocumentData>, dep: string[]): R {
+  const [state, setState] = useState<TState>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -20,14 +22,14 @@ function useDocument(docRef: DocumentReference<DocumentData>, dep: string | null
         setLoading(false);
         setError(false);
       },
-      (error) => {
+      () => {
         setError(true);
         setLoading(false);
       }
     );
 
     return unsub;
-  }, [dep]);
+  }, dep);
 
   return [state, loading, error];
 }

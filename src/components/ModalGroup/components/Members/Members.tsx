@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 
 type Props = {
   userDocs: DocumentSnapshot<DocumentData>[] | null;
-  admins: string[];
+  admins: string[] | undefined;
   participants: string[];
   error: boolean;
 };
@@ -69,7 +69,7 @@ function Members({ userDocs, admins, participants, error }: Props) {
   };
 
   const handleLeaveGroup = async () => {
-    if (admins.length > 1) {
+    if (admins && admins.length > 1) {
       const docRef = doc(db, `Conversations/${conversationID}`);
       try {
         await updateDoc(docRef, {
@@ -105,7 +105,7 @@ function Members({ userDocs, admins, participants, error }: Props) {
               <p>{userData?.displayName}</p>
             </div>
 
-            {(userDoc.id === user.uid || admins.includes(user.uid)) && (
+            {(userDoc.id === user.uid || (admins && admins.includes(user.uid))) && (
               <>
                 <button ref={addBtnToRef} onClick={handleControls}>
                   <IoEllipsisHorizontal size={25} />
@@ -118,7 +118,8 @@ function Members({ userDocs, admins, participants, error }: Props) {
                     </button>
                   )}
 
-                  {admins.includes(user.uid) &&
+                  {admins &&
+                    admins.includes(user.uid) &&
                     userDoc.id !== user.uid &&
                     participants.length > 3 && (
                       <button onClick={() => handleKickMember(userDoc.id)}>
@@ -127,7 +128,8 @@ function Members({ userDocs, admins, participants, error }: Props) {
                       </button>
                     )}
 
-                  {admins.includes(user.uid) &&
+                  {admins &&
+                    admins.includes(user.uid) &&
                     userDoc.id !== user.uid &&
                     !admins.includes(userDoc.id) && (
                       <button onClick={() => handleAddAdmin(userDoc.id)}>

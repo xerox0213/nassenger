@@ -35,8 +35,8 @@ function Message({
   const conversationID = params.conversationID as string;
   const { type, reply, sentAt, content, messageID } = messageData;
   const docRef = doc(db, `Conversations/${conversationID}/Messages/${reply}`);
-  const [state, loading, error] = useDocument(docRef, null);
-  const [userDocs, loadingUser, errorUser] = useUserDocs([messageData.userID], conversationID);
+  const [replydata, loadingReply] = useDocument(docRef, []);
+  const [userDocs, loadingUser] = useUserDocs([messageData.userID], []);
 
   const handleReply = () => {
     setReply({ messageID, content, type });
@@ -61,18 +61,20 @@ function Message({
       {haveToAddName && (
         <p className={styles.name}>{!loadingUser && userDocs && userDocs[0].data()?.displayName}</p>
       )}
-      {state && (
+      {replydata && (
         <div className={styles.repliedMessage}>
           {haveToAddSpace && <div style={{ width: 35, height: 35 }}></div>}
-          <a href={`#${state.messageID}`}>
-            {state.type === 'removed'
-              ? 'Message supprimé'
-              : state.type === 'text'
-              ? state.content.length > 60
-                ? state.content.slice(0, 60) + '...'
-                : state.content
-              : 'Pièce jointe'}
-          </a>
+          {!loadingReply && (
+            <a href={`#${replydata.messageID}`}>
+              {replydata.type === 'removed'
+                ? 'Message supprimé'
+                : replydata.type === 'text'
+                ? replydata.content.length > 60
+                  ? replydata.content.slice(0, 60) + '...'
+                  : replydata.content
+                : 'Pièce jointe'}
+            </a>
+          )}
         </div>
       )}
 

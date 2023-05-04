@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 
 type Props = {
   userDocs: DocumentSnapshot<DocumentData>[] | null;
-  admins: string[];
+  admins: string[] | undefined;
   error: boolean;
 };
 
@@ -59,31 +59,32 @@ function Admins({ userDocs, admins, error }: Props) {
 
   return (
     <div className={styles.adminsList}>
-      {admins.map((adminID) => {
-        const adminDoc = userDocs?.find((userDoc) => userDoc.id === adminID);
-        const adminData = adminDoc?.data() as UserData | undefined;
-        return (
-          <div key={adminID} className={styles.item}>
-            <div className={styles.userInfo}>
-              <Avatar width={40} photoURL={adminData?.photoURL} />
-              <p>{adminData?.displayName}</p>
-            </div>
-            {admins.includes(user.uid) && adminID !== user.uid && (
-              <>
-                <button ref={addBtnToRef} onClick={handleControls}>
-                  <IoEllipsisHorizontal size={25} />
-                </button>
-                <div className={styles.controls}>
-                  <button onClick={() => handleRemoveAdmin(adminID)}>
-                    <IoPersonRemoveOutline size={22} />
-                    Retirer l'admin
+      {admins &&
+        admins.map((adminID) => {
+          const adminDoc = userDocs?.find((userDoc) => userDoc.id === adminID);
+          const adminData = adminDoc?.data() as UserData | undefined;
+          return (
+            <div key={adminID} className={styles.item}>
+              <div className={styles.userInfo}>
+                <Avatar width={40} photoURL={adminData?.photoURL} />
+                <p>{adminData?.displayName}</p>
+              </div>
+              {admins.includes(user.uid) && adminID !== user.uid && (
+                <>
+                  <button ref={addBtnToRef} onClick={handleControls}>
+                    <IoEllipsisHorizontal size={25} />
                   </button>
-                </div>
-              </>
-            )}
-          </div>
-        );
-      })}
+                  <div className={styles.controls}>
+                    <button onClick={() => handleRemoveAdmin(adminID)}>
+                      <IoPersonRemoveOutline size={22} />
+                      Retirer l'admin
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
     </div>
   );
 }
