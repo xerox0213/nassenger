@@ -42,7 +42,7 @@ function ConversationItem({ data, conversationID }: Props) {
       console.dir(error);
     }
   };
-  console.log(conversationID, errorLastMsgData);
+
   if (errorUserData || errorLastMsgData) {
     return (
       <NavLink to='/'>
