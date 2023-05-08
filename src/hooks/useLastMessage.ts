@@ -26,6 +26,7 @@ function useLastMessage(query: Query<DocumentData>): R {
         setError(false);
       },
       (error) => {
+        console.dir(error);
         setError(true);
         setLoading(false);
       }

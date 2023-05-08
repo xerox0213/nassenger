@@ -1,7 +1,7 @@
 import Avatar from '@components/Avatar/Avatar';
 import styles from './ConversationItem.module.css';
 import { ConversationData, UserData, firebaseUser } from '@services/types/types';
-import { doc, collection, query, limit, orderBy, updateDoc } from 'firebase/firestore';
+import { doc, collection, query, limit, orderBy, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '@services/configuration/firebase-config';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '@context/AuthContext';
@@ -19,56 +19,33 @@ type Props = {
 };
 
 function ConversationItem({ data, conversationID }: Props) {
+  const params = useParams();
+  const URLID = params.conversationID as string;
   const user = useContext(AuthContext) as firebaseUser;
   const collectionRef = collection(db, `Conversations/${conversationID}/Messages`);
   const q = query(collectionRef, orderBy('sentAt', 'desc'), limit(1));
-  const [userDocs, loadingUserData, errorUserData] = useUserDocs(
+  const [userDocs, loadingUserData, errorUserData] = useUserDocs(data.participants, [
     data.participants,
-    data.participants
-  );
+  ]);
   const [lastMsgData, loadingLastMsgData, errorLastMsgData] = useLastMessage(q);
-  const { conversationID: slug } = useParams();
   const filteredUserDocs = userDocs?.filter((userDoc) => userDoc.id !== user.uid);
 
-  const notSeen =
-    !data.seen &&
-    (!slug || slug !== conversationID) &&
-    lastMsgData &&
-    lastMsgData.userID !== user.uid;
-
-  useEffect(() => {
-    if (
-      slug &&
-      slug === conversationID &&
-      data.seen === false &&
-      lastMsgData &&
-      lastMsgData.userID !== user.uid
-    ) {
-      const convDocRef = doc(db, 'Conversations', conversationID);
-      updateDoc(convDocRef, {
-        seen: true,
-      })
-        .then((res) => console.log('UPDATE'))
-        .catch((error) => console.dir(error));
-    }
-  }, [data.lastUpdated]);
-
   const handleClick = async () => {
-    if (!data.seen && lastMsgData && lastMsgData.userID !== user.uid) {
-      try {
+    try {
+      if (!data.seen.includes(user.uid)) {
         const convDocRef = doc(db, 'Conversations', conversationID);
         await updateDoc(convDocRef, {
-          seen: true,
+          seen: arrayUnion(user.uid),
         });
-      } catch (error) {
-        console.dir(error);
       }
+    } catch (error) {
+      console.dir(error);
     }
   };
-
+  console.log(conversationID, errorLastMsgData);
   if (errorUserData || errorLastMsgData) {
     return (
-      <NavLink to='/' style={{ pointerEvents: 'none' }}>
+      <NavLink to='/'>
         <AvatarSkeleton width={55} height={55} />
         <TextSkeleton width={150} height={12} />
         <TextSkeleton width={100} height={12} />
@@ -130,26 +107,30 @@ function ConversationItem({ data, conversationID }: Props) {
             lastMsgData.content.length < 30 ? (
               <p>
                 {`${lastMsgData.content} • ${convertLastUpdatedToString(
-                  data.lastUpdated ? data.lastUpdated.toDate() : new Date(Date.now())
+                  lastMsgData.sentAt ? lastMsgData.sentAt.toDate() : new Date(Date.now())
                 )}`}
               </p>
             ) : (
               <p>
                 {`${lastMsgData.content.slice(0, 20)}... • ${convertLastUpdatedToString(
-                  data.lastUpdated ? data.lastUpdated.toDate() : new Date(Date.now())
+                  lastMsgData.sentAt ? lastMsgData.sentAt.toDate() : new Date(Date.now())
                 )}`}
               </p>
             )
           ) : (
-            <p>{`Pièce jointe • ${convertLastUpdatedToString(
-              data.lastUpdated ? data.lastUpdated.toDate() : new Date(Date.now())
+            <p>{`${
+              lastMsgData.type !== 'removed' ? 'Pièce jointe' : 'Message supprimé'
+            } • ${convertLastUpdatedToString(
+              lastMsgData.sentAt ? lastMsgData.sentAt.toDate() : new Date(Date.now())
             )}`}</p>
           )
         ) : (
           <p>Aucun message</p>
         )}
       </div>
-      {notSeen && <div className={styles.stickerNotif}></div>}
+      {!data.seen.includes(user.uid) && conversationID !== URLID && (
+        <div className={styles.stickerNotif}></div>
+      )}
     </NavLink>
   );
 }

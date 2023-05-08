@@ -97,7 +97,7 @@
 }
 
 .msgRemoved {
-  display: inline-block;
+  display: block;
   border: .5px solid rgb(91, 85, 85);
   padding: 8px 10px;
   border-radius: 5px;

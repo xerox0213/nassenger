@@ -10,7 +10,7 @@ type TBackup = {
 };
 const backup: TBackup = {};
 
-function useUserDocs(participants: string[], dep: string[]): R {
+function useUserDocs(participants: string[], dep: any[]): R {
   const [state, setState] = useState<TState>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

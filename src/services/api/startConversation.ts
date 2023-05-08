@@ -1,12 +1,12 @@
 import { db } from '@services/configuration/firebase-config';
 import {
   collection,
-  serverTimestamp,
   query,
   where,
   getDocs,
   addDoc,
   FieldValue,
+  serverTimestamp,
 } from 'firebase/firestore';
 
 export async function startConversation(currentUserID: string, selectedUsersID: string[]) {
@@ -23,16 +23,16 @@ export async function startConversation(currentUserID: string, selectedUsersID: 
     }
 
     type Data = {
-      participants: string[];
       lastUpdated: FieldValue;
-      lastMessage: 'Aucun message';
+      participants: string[];
+      seen: string[];
       groupInfo: null | { admins: string[] };
     };
 
     const data: Data = {
-      participants: allParticipants,
       lastUpdated: serverTimestamp(),
-      lastMessage: 'Aucun message',
+      participants: allParticipants,
+      seen: [],
       groupInfo:
         allParticipants.length > 2
           ? {

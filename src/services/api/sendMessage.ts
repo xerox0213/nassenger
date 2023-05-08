@@ -1,6 +1,13 @@
 import { TReply } from '@pages/[id]/[id]';
 import { db } from '@services/configuration/firebase-config';
-import { serverTimestamp, writeBatch, doc, collection, FieldValue } from 'firebase/firestore';
+import {
+  serverTimestamp,
+  writeBatch,
+  doc,
+  collection,
+  FieldValue,
+  setDoc,
+} from 'firebase/firestore';
 
 export async function sendMessage(
   type: string,
@@ -11,10 +18,8 @@ export async function sendMessage(
 ) {
   try {
     const batch = writeBatch(db);
-    const timestamp = serverTimestamp();
-
-    const conversationDocRef = doc(db, 'Conversations', conversationID);
     const messageDocRef = doc(collection(db, `Conversations/${conversationID}/Messages`));
+    const conversationDocRef = doc(db, `Conversations/${conversationID}`);
 
     type Data = {
       type: string;
@@ -34,8 +39,8 @@ export async function sendMessage(
       reply: reply && reply.messageID,
     };
 
-    batch.update(conversationDocRef, { lastUpdated: timestamp });
     batch.set(messageDocRef, data);
+    batch.update(conversationDocRef, { seen: [userID], lastUpdated: serverTimestamp() });
     await batch.commit();
 
     return 'Message envoyé';

@@ -1,9 +1,10 @@
-import { collection, limit, orderBy, query } from 'firebase/firestore';
+import { arrayUnion, collection, limit, orderBy, query, updateDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
 import styles from './ChatContent.module.css';
 import { db } from '@services/configuration/firebase-config';
 import { useParams } from 'react-router-dom';
 import { ConversationData, MessageData, SetState, firebaseUser } from '@services/types/types';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '@context/AuthContext';
 import Message from '../Message/Message';
 import useCollection from '@hooks/useCollection';
@@ -22,10 +23,23 @@ type Props = {
 function ChatContent({ reply, setReply, conversationData }: Props) {
   const [count, setCount] = useState(1);
   const user = useContext(AuthContext) as firebaseUser;
-  const { conversationID } = useParams();
+  const params = useParams();
+  const conversationID = params.conversationID as string;
   const collectionRef = collection(db, `Conversations/${conversationID}/Messages`);
   const q = query(collectionRef, orderBy('sentAt', 'desc'), limit(count * 15));
   const [state, loading, error] = useCollection<number>(q, [count]);
+
+  useEffect(() => {
+    updateDoc;
+    if (!conversationData.seen.includes(user.uid)) {
+      const convDocRef = doc(db, 'Conversations', conversationID);
+      updateDoc(convDocRef, {
+        seen: arrayUnion(user.uid),
+      })
+        .then((res) => console.log(res))
+        .catch(() => console.dir(error));
+    }
+  }, [conversationData.lastUpdated]);
 
   const handleEnter = () => {
     setCount((curr) => curr + 1);

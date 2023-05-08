@@ -23,9 +23,9 @@ function useCollection<T>(query: Query<DocumentData>, dependencies: T[] = []): R
         setError(false);
       },
       (error) => {
+        console.log(error);
         setError(true);
         setLoading(false);
-        console.log(error);
       }
     );
     return unsub;

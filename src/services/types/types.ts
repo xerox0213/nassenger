@@ -13,7 +13,7 @@ export type ConversationData = {
   tag: string;
   participants: string[];
   lastUpdated: Timestamp | undefined;
-  seen: boolean;
+  seen: string[];
   groupInfo: { admins: string[] } | null;
 };
 

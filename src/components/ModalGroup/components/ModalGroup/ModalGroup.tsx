@@ -14,10 +14,9 @@ type Props = {
 
 function ModalGroup({ setIsOpened, conversationData }: Props) {
   const [activeTab, setActiveTab] = useState('members');
-  const [userDocs, loading, error] = useUserDocs(
+  const [userDocs, loading, error] = useUserDocs(conversationData.participants, [
     conversationData.participants,
-    conversationData.participants
-  );
+  ]);
   const handleTabs = (e: MouseEvent) => {
     const btn = e.target as HTMLButtonElement;
     const tabName = btn.dataset.name as string;

@@ -47,10 +47,6 @@ function ChatInput({ reply, setReply }: Props) {
         } else {
           setReply(null);
           await sendMessage('text', conversationID, text, user.uid, reply);
-          const convDocRef = doc(db, 'Conversations', conversationID);
-          await updateDoc(convDocRef, {
-            seen: false,
-          });
         }
       } catch (error) {
         console.dir(error);

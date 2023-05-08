@@ -22,10 +22,9 @@ function ChatHeader({ conversationData, setIsOpened }: Props) {
   const user = useContext(AuthContext) as firebaseUser;
   const isInSmallScreen = useContext(WindowContext);
   const navigate = useNavigate();
-  const [userDocs, loading, error] = useUserDocs(
+  const [userDocs, loading, error] = useUserDocs(conversationData.participants, [
     conversationData.participants,
-    conversationData.participants
-  );
+  ]);
   const filteredUserDocs = userDocs?.filter((userDoc) => userDoc.id !== user.uid);
 
   if (error) {

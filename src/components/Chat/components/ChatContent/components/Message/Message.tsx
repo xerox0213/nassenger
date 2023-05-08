@@ -36,7 +36,7 @@ function Message({
   const { type, reply, sentAt, content, messageID } = messageData;
   const docRef = doc(db, `Conversations/${conversationID}/Messages/${reply}`);
   const [replydata, loadingReply] = useDocument(docRef, []);
-  const [userDocs, loadingUser] = useUserDocs([messageData.userID], []);
+  const [userDocs, loadingUser] = useUserDocs([messageData.userID], [messageData.userID]);
 
   const handleReply = () => {
     setReply({ messageID, content, type });
@@ -65,15 +65,18 @@ function Message({
         <div className={styles.repliedMessage}>
           {haveToAddSpace && <div style={{ width: 35, height: 35 }}></div>}
           {!loadingReply && (
-            <a href={`#${replydata.messageID}`}>
-              {replydata.type === 'removed'
-                ? 'Message supprimé'
-                : replydata.type === 'text'
-                ? replydata.content.length > 60
-                  ? replydata.content.slice(0, 60) + '...'
-                  : replydata.content
-                : 'Pièce jointe'}
-            </a>
+            <>
+              <div style={{ width: 35, height: 35 }}></div>
+              <a href={`#${replydata.messageID}`}>
+                {replydata.type === 'removed'
+                  ? 'Message supprimé'
+                  : replydata.type === 'text'
+                  ? replydata.content.length > 60
+                    ? replydata.content.slice(0, 60) + '...'
+                    : replydata.content
+                  : 'Pièce jointe'}
+              </a>
+            </>
           )}
         </div>
       )}
